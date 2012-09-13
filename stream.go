@@ -1,8 +1,8 @@
 package streamango
 
 import (
-	"net/http"
 	"github.com/paulbellamy/mango"
+	"net/http"
 )
 
 func streamerapp(streamer http.HandlerFunc) mango.App {
@@ -22,11 +22,12 @@ func HandlerFunc(stack *mango.Stack, streamer http.HandlerFunc) http.HandlerFunc
 		env["mango.writer"] = w
 
 		status, headers, body := compiled_app(env)
-		_, yes := env["streamango.streaming"]
+		_, streaming := env["streamango.streaming"]
 		// streaming, so don't need to do
-		if yes {
+		if streaming {
 			return
 		}
+
 		for key, values := range headers {
 			for _, value := range values {
 				w.Header().Add(key, value)
